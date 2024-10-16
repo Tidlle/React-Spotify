@@ -12,10 +12,11 @@ function App() {
 
   useEffect(() => {
     fetch('http://localhost:3000/artistas')
-      .then(res => res.json)
+      .then(res => res.json())
       .then(data => setArtistas(data))
       .catch(err => console.log(err))
-  })
+      .finally(() => console.log("Finalizou a requisição"))
+  },[])
 
   return (
     <>
@@ -28,17 +29,15 @@ function App() {
           <CardSideBar />
         </SideBar>
         <ConteudoPrincipal>
-          {
-            artistas.map(artistas => (
+          <> 
+          {artistas
+            .filter( artista => artista.genero.includes("Trap"))
+            .map(artistas => (
               <div className="bg-red-500 w-28 h-28 flex flex-col justify-around items-center">
-                <p>{artistas.name}</p>
-                <div className="bg-green-400 w-3/4 h-7"></div>
-                <div className="bg-green-400 w-3/4 h-7"></div>
+                <h1>{artistas.name}</h1>
               </div>
-            ))
-          }
-
-
+            ))}
+          </>
         </ConteudoPrincipal>
       </Container>
     </>
